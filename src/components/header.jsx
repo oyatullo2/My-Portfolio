@@ -1,0 +1,143 @@
+import { Link } from "react-router-dom";
+import { X, Menu } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+export const Header = () => {
+  return (
+    <div className="flex justify-between pt-[32px] pb-[8px]">
+      <Link to="/" className="flex gap-2 items-center">
+        <img src="icons/logo.png" />
+        <span className="text-[16px] font-bold">Xayrullayevich</span>
+      </Link>
+      <div className="flex gap-[32px]">
+        <Link
+          to={"/"}
+          className={
+            location.pathname === "/" ? "text-white" : "text-[#ABB2BF]"
+          }
+        >
+          <span className="main-color">#</span>
+          home
+        </Link>
+        <Link
+          to={"/projects"}
+          className={
+            location.pathname === "/projects" ? "text-white" : "text-[#ABB2BF]"
+          }
+        >
+          <span className="main-color">#</span>
+          work
+        </Link>
+        <Link
+          to={"/about-me"}
+          className={
+            location.pathname === "/about-me" ? "text-white" : "text-[#ABB2BF]"
+          }
+        >
+          <span className="main-color">#</span>
+          about-me
+        </Link>
+        <Link
+          to={"/contacts"}
+          className={
+            location.pathname === "/contacts" ? "text-white" : "text-[#ABB2BF]"
+          }
+        >
+          <span className="main-color">#</span>
+          contacts
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export const MobileHeader = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleCloseMenu = (e) => {
+    if (e.target === e.currentTarget) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    // Komponent unmount bo‘lganda scrollni tiklaymiz
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  return (
+    <>
+      <div className="fixed [width:calc(100%-32px)] bg-[#21201c] z-50">
+        <div className="flex items-center justify-between pt-4 pb-2 text-white">
+          <h1 className="flex items-center gap-2">
+            <img src="icons/logo.png" width={16} /> Xayrullayevich
+          </h1>
+          <button onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? (
+              <img src="icons/x.svg" size={28} />
+            ) : (
+              <img src="icons/menu.svg" size={28} />
+            )}
+          </button>
+        </div>
+
+        {isOpen && (
+          <div
+            className="fixed top-[48px] left-0 w-full h-full bg-[#21201c] text-white flex flex-col items-center justify-center gap-6 text-2xl z-50 transition-all duration-700"
+            onClick={handleCloseMenu}
+          >
+            <Link
+              to="/"
+              className={
+                location.pathname !== "/" ? "text-red-500" : "text=[#ABB2BF]"
+              }
+            >
+              #home
+            </Link>
+            <Link
+              to="/projects"
+              className={
+                location.pathname !== "/projects"
+                  ? "text-red-500"
+                  : "text=[#ABB2BF]"
+              }
+            >
+              #works
+            </Link>
+            <Link
+              to="/about-me"
+              className={
+                location.pathname !== "/about-me"
+                  ? "text-red-500"
+                  : "text=[#ABB2BF]"
+              }
+            >
+              #about-me
+            </Link>
+            <Link
+              to="/contacts"
+              className={
+                location.pathname !== "/contacts"
+                  ? "text-red-500"
+                  : "text=[#ABB2BF]"
+              }
+            >
+              #contacts
+            </Link>
+            <script>document.body.style.overflow = 'hidden';</script>
+          </div>
+        )}
+      </div>
+      <div className="h-[48px] bg-[#21201c]" />
+    </>
+  );
+};
